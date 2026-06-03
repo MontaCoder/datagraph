@@ -1,0 +1,710 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ─────────────────────────────────────────────────────────────
+   DATAGRAPH — "PLOT" Instrument Design System
+   A precision plotting instrument for data. Void-black substrate,
+   engineering graph-paper, coordinate ticks & crosshairs, a single
+   electric VOLT-lime accent, heavy grotesque display + monospace
+   telemetry. Light theme is the daytime "engineering paper" companion.
+   Token names are kept stable so every component re-themes for free.
+   ───────────────────────────────────────────────────────────── */
+
+@theme inline {
+  --color-background: var(--ink);
+  --color-foreground: var(--bone);
+
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-bone: var(--bone);
+  --color-paper: var(--paper);
+  --color-smoke: var(--smoke);
+  --color-graphite: var(--graphite);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-cinnabar: var(--cinnabar);
+  --color-volt: var(--ember);
+  --color-moss: var(--moss);
+  --color-storm: var(--storm);
+  --color-saffron: var(--saffron);
+  --color-rose: var(--rose);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  /* shadcn legacy aliases (so existing components keep working) */
+  --color-card: var(--surface);
+  --color-card-foreground: var(--bone);
+  --color-popover: var(--surface-2);
+  --color-popover-foreground: var(--bone);
+  --color-primary: var(--bone);
+  --color-primary-foreground: var(--ink);
+  --color-secondary: var(--surface-2);
+  --color-secondary-foreground: var(--bone);
+  --color-muted: var(--surface-2);
+  --color-muted-foreground: var(--smoke);
+  --color-accent: var(--ember);
+  --color-accent-foreground: var(--ink);
+  --color-destructive: var(--rose);
+  --color-border: var(--rule);
+  --color-input: var(--rule);
+  --color-ring: var(--ember);
+
+  --color-sidebar: var(--surface);
+  --color-sidebar-foreground: var(--bone);
+  --color-sidebar-primary: var(--ember);
+  --color-sidebar-primary-foreground: var(--ink);
+  --color-sidebar-accent: var(--surface-2);
+  --color-sidebar-accent-foreground: var(--bone);
+  --color-sidebar-border: var(--rule);
+  --color-sidebar-ring: var(--ember);
+
+  --radius-sm: 1px;
+  --radius-md: 2px;
+  --radius-lg: 4px;
+  --radius-xl: 8px;
+}
+
+/* ─── DARK THEME (default) — "Instrument / Void" ───────────── */
+:root,
+.dark,
+html.dark,
+[data-theme="dark"] {
+  /* base palette */
+  --ink: #08090c;
+  --surface: #0d0f14;
+  --surface-2: #13161d;
+  --surface-3: #1a1e27;
+
+  /* type */
+  --bone: #edf0f4;
+  --paper: #c2c8d1;
+  --smoke: #8b929d;
+  --graphite: #646b79;
+
+  /* structure */
+  --rule: #191d25;
+  --rule-strong: #2a3039;
+
+  /* accents */
+  --ember: #c8f24a;        /* signature VOLT-lime */
+  --ember-soft: #e4fba0;
+  --cinnabar: #a7d62b;     /* darker lime (hover) */
+  --moss: #35d6a6;         /* mint — success/live (distinct from brand) */
+  --storm: #6ab7ff;        /* sky — data series */
+  --saffron: #ffc24b;      /* amber — numerals */
+  --rose: #ff647e;         /* coral — errors */
+
+  --accent-rgb: 200 242 74;
+
+  /* atmospheric backgrounds */
+  --bg-glow:
+    radial-gradient(
+      ellipse 75% 48% at 50% -12%,
+      rgb(var(--accent-rgb) / 0.07) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 60% 40% at 85% 8%,
+      rgb(106 183 255 / 0.05) 0%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, var(--ink) 0%, #06070a 100%);
+
+  --grid-color: var(--rule);
+  --grid-color-fine: rgb(255 255 255 / 0.025);
+  --dot-color: rgb(255 255 255 / 0.05);
+
+  --radius: 2px;
+}
+
+/* ─── LIGHT THEME — "Engineering paper" ────────────────────── */
+.light,
+html.light,
+[data-theme="light"] {
+  /* The page is a soft paper grey; panels are BRIGHT WHITE so cards and
+     consoles read crisply against it. Hairlines run a touch stronger than
+     the dark theme so the instrument's structure stays clearly legible. */
+  --ink: #eceee5;        /* page — soft engineering paper */
+  --surface: #ffffff;    /* cards / panels — bright, clearly raised */
+  --surface-2: #eef1e4;  /* inset chrome (headers, chips) */
+  --surface-3: #e2e6d6;  /* hover / deeper inset */
+
+  /* ink hierarchy — strong, high-contrast type */
+  --bone: #11151a;       /* near-black primary */
+  --paper: #373d44;      /* secondary */
+  --smoke: #545b64;      /* meta / labels */
+  --graphite: #7e8674;   /* faint marginalia */
+
+  /* hairlines — clearly visible structure */
+  --rule: #d6dac9;
+  --rule-strong: #aeb59c;
+
+  /* accents — clean deep lime, legible on paper */
+  --ember: #4a7a0a;
+  --ember-soft: #5b8c10;
+  --cinnabar: #3a6008;
+  --moss: #15835f;
+  --storm: #2563a0;
+  --saffron: #8c6300;
+  --rose: #b0304a;
+
+  --accent-rgb: 74 122 10;
+
+  --bg-glow:
+    radial-gradient(
+      ellipse 75% 46% at 50% -12%,
+      rgb(var(--accent-rgb) / 0.06) 0%,
+      transparent 60%
+    ),
+    linear-gradient(180deg, var(--ink) 0%, #e7eadd 100%);
+
+  --grid-color: var(--rule);
+  --grid-color-fine: rgb(0 0 0 / 0.045);
+  --dot-color: rgb(0 0 0 / 0.08);
+}
+
+@layer base {
+  * {
+    border-color: var(--rule);
+  }
+
+  html,
+  body {
+    background-color: var(--ink);
+    color: var(--bone);
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-image: var(--bg-glow);
+    transition: background-color 240ms ease, color 240ms ease;
+  }
+
+  ::selection {
+    background-color: var(--ember);
+    color: var(--ink);
+  }
+
+  /* hairline scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--rule-strong);
+    border-radius: 999px;
+    border: 3px solid var(--ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--ember);
+  }
+}
+
+/* ─── typography utilities ─────────────────────────────────── */
+.font-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+.italic-display {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  font-style: italic;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+.font-mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.eyebrow {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--smoke);
+}
+.eyebrow-ember {
+  color: var(--ember);
+}
+
+/* outlined numerals / words — instrument "ghost" type */
+.text-stroke {
+  -webkit-text-stroke: 1.25px var(--rule-strong);
+  color: transparent;
+}
+.text-stroke-accent {
+  -webkit-text-stroke: 1.25px var(--ember);
+  color: transparent;
+}
+
+/* ghost numeral that lights up when its Tailwind `group` parent is hovered */
+.ghost-num {
+  -webkit-text-stroke: 1.5px var(--rule-strong);
+  color: transparent;
+  transition: -webkit-text-stroke-color 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.group:hover .ghost-num {
+  -webkit-text-stroke-color: var(--ember);
+}
+
+/* ─── instrument chrome ─────────────────────────────────────── */
+.hairline {
+  border-top: 1px solid var(--rule);
+}
+.hairline-strong {
+  border-top: 1px solid var(--rule-strong);
+}
+.hairline-double {
+  border-top: 1px solid var(--rule-strong);
+  box-shadow: 0 4px 0 -3px var(--rule);
+}
+
+.divider-dots {
+  height: 1px;
+  background-image: radial-gradient(
+    circle,
+    var(--rule-strong) 1px,
+    transparent 1px
+  );
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+}
+
+/* ─── grid + plot backgrounds (theme-aware) ────────────────── */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 64px 64px;
+  background-position: -1px -1px;
+  mask-image: radial-gradient(
+    ellipse 90% 70% at 50% 30%,
+    black 30%,
+    transparent 80%
+  );
+}
+
+.bg-grid-fine {
+  background-image:
+    linear-gradient(to right, var(--grid-color-fine) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color-fine) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* engineering paper: major + minor rules */
+.bg-graph {
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to right, var(--grid-color-fine) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color-fine) 1px, transparent 1px);
+  background-size: 80px 80px, 80px 80px, 16px 16px, 16px 16px;
+  background-position: -1px -1px;
+}
+
+/* plotting dots */
+.bg-dots {
+  background-image: radial-gradient(var(--dot-color) 1.2px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+
+/* ─── grain overlay (used inside <Grain />) ────────────────── */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(var(--grain-strength, 0.5) * var(--grain-mult, 1));
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.light .grain {
+  mix-blend-mode: multiply;
+  --grain-mult: 0.32;
+}
+
+/* ─── numbered section label ───────────────────────────────── */
+.section-number {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--smoke);
+}
+
+/* ─── the signature accent line ────────────────────────────── */
+.ember-bar {
+  position: relative;
+}
+.ember-bar::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  height: 0.72em;
+  width: 3px;
+  background: var(--ember);
+  box-shadow: 0 0 12px rgb(var(--accent-rgb) / 0.6);
+}
+
+/* corner registration tick (decorative) */
+.tick-corner {
+  position: relative;
+}
+.tick-corner::before,
+.tick-corner::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--ember);
+  border-style: solid;
+  border-width: 0;
+}
+.tick-corner::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.tick-corner::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* ─── code blocks ──────────────────────────────────────────── */
+code,
+pre,
+.code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12.5px;
+}
+
+/* ─── prose for chat markdown ──────────────────────────────── */
+.prose-editorial {
+  color: var(--bone);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.prose-editorial p {
+  margin: 0.55em 0;
+}
+.prose-editorial h1,
+.prose-editorial h2,
+.prose-editorial h3 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  margin-top: 1.2em;
+  margin-bottom: 0.4em;
+  font-weight: 800;
+}
+.prose-editorial h1 { font-size: 25px; }
+.prose-editorial h2 { font-size: 20px; }
+.prose-editorial h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+.prose-editorial strong {
+  color: var(--bone);
+  font-weight: 700;
+}
+.prose-editorial em {
+  color: var(--paper);
+  font-style: italic;
+}
+.prose-editorial a {
+  color: var(--ember);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose-editorial code {
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-size: 12.5px;
+  color: var(--ember-soft);
+}
+.prose-editorial pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: inherit;
+}
+.prose-editorial ol,
+.prose-editorial ul {
+  padding-left: 1.4rem;
+  margin: 0.5em 0;
+}
+.prose-editorial ol { list-style-type: decimal; }
+.prose-editorial ul { list-style-type: disc; }
+.prose-editorial li {
+  margin: 0.25em 0;
+}
+.prose-editorial ol > li::marker,
+.prose-editorial ul > li::marker {
+  color: var(--ember);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.prose-editorial blockquote {
+  border-left: 2px solid var(--ember);
+  padding-left: 1em;
+  margin: 1em 0;
+  color: var(--paper);
+  font-style: italic;
+  font-size: 16px;
+}
+.prose-editorial hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 1.5em 0;
+}
+.prose-editorial table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 13px;
+}
+.prose-editorial th,
+.prose-editorial td {
+  border: 1px solid var(--rule);
+  padding: 6px 10px;
+  text-align: left;
+}
+.prose-editorial th {
+  background: var(--surface-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--smoke);
+}
+
+/* ─── motion primitives ────────────────────────────────────── */
+@keyframes ember-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: "▌";
+  margin-left: 2px;
+  color: var(--ember);
+  animation: ember-blink 1.05s steps(1, end) infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+.marquee-track.reverse {
+  animation-direction: reverse;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@keyframes ember-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.45); }
+  50% { box-shadow: 0 0 0 8px rgb(var(--accent-rgb) / 0); }
+}
+.ember-pulse {
+  animation: ember-pulse 2.4s ease-out infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.scan::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 30%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--accent-rgb) / 0.22) 50%,
+    transparent 100%
+  );
+  animation: scan 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* scroll-reveal system (driven by <Reveal /> via IntersectionObserver) */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  will-change: opacity, transform;
+  transition:
+    opacity 0.85s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.85s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-clip {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-clip.is-visible {
+  clip-path: inset(0 0 0 0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* SVG plot line drawing */
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+.plot-draw {
+  stroke-dasharray: var(--len, 1000);
+  stroke-dashoffset: var(--len, 1000);
+}
+.plot-draw.is-visible {
+  animation: draw 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* grow a bar from the baseline */
+@keyframes grow-bar {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* slow ambient float for plotted points */
+@keyframes drift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* accent shimmer for "live" chips */
+@keyframes volt-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  94% { opacity: 0.5; }
+  96% { opacity: 1; }
+}
+.volt-flicker {
+  animation: volt-flicker 4s ease-in-out infinite;
+}
+
+/* ─── react-syntax-highlighter overrides ───────────────────── */
+.code-editorial pre,
+.code-editorial code {
+  font-family: var(--font-mono) !important;
+}
+
+/* ─── animated link underline ──────────────────────────────── */
+.editorial-link {
+  position: relative;
+  display: inline-block;
+}
+.editorial-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 1px;
+  width: 0;
+  background: var(--ember);
+  transition: width 280ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.editorial-link:hover::after {
+  width: 100%;
+}
+
+/* ─── focus rings — sharp, not soft glow ───────────────────── */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--ink), 0 0 0 2px var(--ember);
+}
+
+/* legacy .prose support (used by markdown) */
+.prose ol,
+.prose ul {
+  padding-left: 1.5rem;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.prose ol { list-style-type: decimal; }
+.prose ul { list-style-type: disc; }
+.prose li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 0.25em;
+}
+.prose ol > li::marker,
+.prose ul > li::marker {
+  color: var(--ember);
+}
+
+/* ─── reduced motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal,
+  .reveal-scale,
+  .reveal-clip {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+}
+
+/* ─── prevent FOUC on theme switch ─────────────────────────── */
+html { color-scheme: dark; }
+html.light { color-scheme: light; }
