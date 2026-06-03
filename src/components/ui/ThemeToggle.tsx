@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * ThemeToggle — editorial-style theme switcher.
  *
  * Two visual variants:
- * - `chip`: a horizontal pill with "DARK / LIGHT" mono labels (used in the
+ * - `chip`: a horizontal pill with sun / moon glyphs (used in the
  *   landing masthead).
  * - `icon`: a single 36x36 button with a sun/moon glyph (used in the app
  *   sidebar where space is tight).
@@ -31,10 +31,10 @@ export function ThemeToggle({
       <span
         aria-hidden
         className={cn(
-          "inline-flex items-center gap-0 h-8 rounded-sm border border-rule bg-surface-2/40",
+          "inline-flex items-center gap-0 h-9 rounded-full border border-rule bg-surface-2/40",
           className
         )}
-        style={{ width: variant === "chip" ? 92 : undefined }}
+        style={{ width: variant === "chip" ? 108 : undefined }}
       />
     ) : (
       <span
@@ -58,35 +58,36 @@ export function ThemeToggle({
         title={`Switch to ${next} theme`}
         onClick={() => setTheme(next)}
         className={cn(
-          "group relative inline-flex items-center h-8 rounded-sm border border-rule bg-surface-2/60 hover:border-rule-strong transition-colors overflow-hidden",
+          "group relative inline-flex items-center h-9 rounded-full border border-rule bg-surface-2/50 hover:border-rule-strong transition-colors overflow-hidden",
           className
         )}
       >
-        {/* the moving thumb */}
+        {/* the sliding thumb */}
         <span
           className={cn(
-            "absolute top-0.5 bottom-0.5 left-0.5 rounded-[2px] bg-ember transition-transform duration-300 ease-out",
-            "w-[44px]"
+            "absolute top-[3px] bottom-[3px] rounded-full bg-bone shadow-[0_1px_3px_rgb(0_0_0/0.25)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            "w-[calc(50%-4px)]"
           )}
           style={{
-            transform: isDark ? "translateX(0)" : "translateX(44px)",
+            left: 4,
+            transform: isDark ? "translateX(0)" : "translateX(calc(100% + 2px))",
           }}
         />
         <span
           className={cn(
-            "relative z-10 inline-flex items-center justify-center w-[44px] h-full font-mono text-[10px] tracking-[0.16em] uppercase transition-colors",
+            "relative z-10 inline-flex items-center justify-center w-[52px] h-full transition-colors duration-200",
             isDark ? "text-ink" : "text-smoke"
           )}
         >
-          <Moon /> Dark
+          <MoonIcon className={cn("transition-transform duration-500", isDark ? "rotate-0" : "-rotate-90")} />
         </span>
         <span
           className={cn(
-            "relative z-10 inline-flex items-center justify-center w-[44px] h-full font-mono text-[10px] tracking-[0.16em] uppercase transition-colors",
+            "relative z-10 inline-flex items-center justify-center w-[52px] h-full transition-colors duration-200",
             !isDark ? "text-ink" : "text-smoke"
           )}
         >
-          <Sun /> Lite
+          <SunIcon className={cn("transition-transform duration-500", !isDark ? "rotate-0" : "rotate-90")} />
         </span>
       </button>
     );
@@ -104,20 +105,20 @@ export function ThemeToggle({
         className
       )}
     >
-      {isDark ? <Sun /> : <Moon />}
+      {isDark ? <SunIcon /> : <MoonIcon />}
     </button>
   );
 }
 
-function Sun() {
+function SunIcon({ className }: { className?: string }) {
   return (
     <svg
-      width="14"
-      height="14"
+      width="16"
+      height="16"
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="mr-1 last:mr-0"
+      className={className}
     >
       <circle cx="7" cy="7" r="2.6" stroke="currentColor" strokeWidth="1.4" />
       <path
@@ -130,15 +131,15 @@ function Sun() {
   );
 }
 
-function Moon() {
+function MoonIcon({ className }: { className?: string }) {
   return (
     <svg
-      width="14"
-      height="14"
+      width="16"
+      height="16"
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="mr-1 last:mr-0"
+      className={className}
     >
       <path
         d="M11.5 8.4A4.6 4.6 0 1 1 5.6 2.5a4 4 0 0 0 5.9 5.9z"
