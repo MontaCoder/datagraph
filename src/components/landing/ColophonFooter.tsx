@@ -85,7 +85,7 @@ export function ColophonFooter() {
         <div className="mt-12 pt-6 border-t border-rule flex flex-wrap items-center justify-between gap-4">
           <EditionStamp showDate showLive edition="REV 001 · MIT" />
           <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-graphite">
-            © {new Date().getFullYear()} · Datagraph · MIT · all rows equal
+            © {new Date().getFullYear()} Montassar Hajri · Datagraph · MIT · all rows equal
           </span>
         </div>
       </div>
