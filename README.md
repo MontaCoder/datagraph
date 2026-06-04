@@ -41,3 +41,7 @@
 4. Run `npm install` and `npm run dev` to install dependencies and start the app locally
 
 Open [http://localhost:3000](http://localhost:3000) to use Datagraph.
+
+---
+
+Copyright (c) 2026 Montassar Hajri. All rights reserved.
