@@ -22,29 +22,35 @@ export const UserLimitsProvider = ({ children }: { children: ReactNode }) => {
   );
   const [resetTimestamp, setResetTimestamp] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // Fetch limits
-  const fetchLimits = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/limits`);
-      const data = await res.json();
-      setRemainingMessages(data.remaining);
-      setResetTimestamp(data.reset ?? null);
-    } catch {
-      setRemainingMessages(null);
-      setResetTimestamp(null);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // bumped by refetch(); the effect owns the request, so every setState lands
+  // in an async callback instead of the effect body
+  const [nonce, setNonce] = useState(0);
 
   useEffect(() => {
-    fetchLimits();
-  }, []);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/limits");
+        const data = await res.json();
+        if (cancelled) return;
+        setRemainingMessages(data.remaining);
+        setResetTimestamp(data.reset ?? null);
+      } catch {
+        if (cancelled) return;
+        setRemainingMessages(null);
+        setResetTimestamp(null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [nonce]);
 
   const refetch = () => {
-    fetchLimits();
+    setLoading(true);
+    setNonce((n) => n + 1);
   };
 
   return (

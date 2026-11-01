@@ -15,6 +15,7 @@ function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(readValue);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- re-read on key change; localStorage is unreadable on the server
     setStoredValue(readValue());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);

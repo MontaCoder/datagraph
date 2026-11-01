@@ -61,7 +61,14 @@ export async function createChat({
 }
 
 export async function loadChat(id: string): Promise<ChatData | null> {
-  const value = await redis.get(`${CHAT_KEY_PREFIX}${id}`);
+  // Redis unreachable / unconfigured → treated like a missing chat so the
+  // route renders the branded not-found instead of crashing the tree.
+  let value: unknown;
+  try {
+    value = await redis.get(`${CHAT_KEY_PREFIX}${id}`);
+  } catch {
+    return null;
+  }
   if (!value) return null;
   try {
     return typeof value === "string" ? JSON.parse(value) : (value as ChatData);

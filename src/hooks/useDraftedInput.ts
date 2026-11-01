@@ -10,6 +10,7 @@ export function useDraftedInput(
     if (typeof window !== "undefined") {
       const draft = localStorage.getItem(key);
       if (draft) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- drafts live in localStorage, unreadable on the server
         setInputValue(draft);
       }
     }

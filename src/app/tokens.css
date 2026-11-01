@@ -1,0 +1,121 @@
+@theme static {
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.375rem;
+  --text-display-s: clamp(2.25rem, 3.2vw + 1.1rem, 3.5rem);
+  --text-display: clamp(2.75rem, 7.2vw, 7.5rem);
+  --text-section: clamp(2rem, 2.4vw + 1rem, 3.25rem);
+  --text-title: clamp(1.25rem, 0.6vw + 1.05rem, 1.5rem);
+  --text-lead: clamp(1.125rem, 0.3vw + 1.05rem, 1.3125rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --color-error: oklch(55% 0.17 25);
+  --color-success: oklch(52% 0.14 150);
+  /* console: paper — warm white, ink, one ochre for a person, one blue for the instrument */
+  --color-paper: oklch(98% 0.006 85);
+  --color-paper-2: oklch(96% 0.007 85);
+  --color-paper-3: oklch(93% 0.008 85);
+  --color-ink: oklch(19% 0.01 60);
+  --color-ink-2: oklch(32% 0.008 60);
+  --color-muted: oklch(48% 0.008 60);
+  --color-rule: oklch(86% 0.006 70);
+  --color-rule-2: oklch(72% 0.008 70);
+  --color-accent: oklch(54% 0.14 70);
+  --color-accent-2: oklch(46% 0.13 68);
+  --color-accent-ink: oklch(98% 0.006 85);
+  --color-accent-soft: oklch(94% 0.04 80);
+  --color-cool: oklch(52% 0.14 250);
+  --color-cool-soft: oklch(91% 0.045 250);
+  --color-live: oklch(52% 0.14 250);
+  --color-focus: oklch(54% 0.14 70);
+  --radius-card: 10px;
+  --radius-pill: 6px;
+  --shadow-card: none;
+  --tracking-display: -0.03em;
+  --display-weight: 500;
+}
+
+:root {
+  color-scheme: light;
+  --font-display: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-atkinson), ui-monospace, monospace;
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --container: 1440px;
+  --gutter: 64px;
+  --gap-columns: 32px;
+  --section-gap-s: 120px;
+  --section-gap: 144px;
+  --section-gap-l: 176px;
+  --rule-hair: 1px;
+  --nav-h: 64px;
+  --rail-h: 44px;
+  --gh-banner-h: 36px;
+  --graphite-paper: oklch(17% 0.008 250);
+  --graphite-paper-2: oklch(21% 0.009 250);
+  --graphite-paper-3: oklch(13.5% 0.007 250);
+  --graphite-ink: oklch(95% 0.005 250);
+  --graphite-ink-2: oklch(83% 0.008 250);
+  --graphite-muted: oklch(71% 0.01 250);
+  --graphite-rule: oklch(31% 0.01 250);
+  --graphite-rule-2: oklch(42% 0.012 250);
+  --graphite-accent: oklch(82% 0.15 80);
+  --graphite-accent-2: oklch(88% 0.13 82);
+  --graphite-accent-ink: oklch(18% 0.04 75);
+  --graphite-accent-soft: oklch(29% 0.05 80);
+  --graphite-cool: oklch(77% 0.12 245);
+  --graphite-cool-soft: oklch(29% 0.05 245);
+  --graphite-live: oklch(77% 0.12 245);
+  --z-sticky-nav: 300;
+  --z-modal: 400;
+  --z-toast: 500;
+}
+@media (max-width: 60rem) { :root { --gutter: 32px; --section-gap-s: 88px; --section-gap: 104px; --section-gap-l: 120px; } }
+@media (max-width: 40rem) { :root { --gutter: 20px; --section-gap-s: 64px; --section-gap: 72px; --section-gap-l: 88px; --gap-columns: 20px; } }
+
+/* console: graphite — the instrument after dark */
+.dark {
+  color-scheme: dark;
+  --color-paper: var(--graphite-paper);
+  --color-paper-2: var(--graphite-paper-2);
+  --color-paper-3: var(--graphite-paper-3);
+  --color-ink: var(--graphite-ink);
+  --color-ink-2: var(--graphite-ink-2);
+  --color-muted: var(--graphite-muted);
+  --color-rule: var(--graphite-rule);
+  --color-rule-2: var(--graphite-rule-2);
+  --color-accent: var(--graphite-accent);
+  --color-accent-2: var(--graphite-accent-2);
+  --color-accent-ink: var(--graphite-accent-ink);
+  --color-accent-soft: var(--graphite-accent-soft);
+  --color-cool: var(--graphite-cool);
+  --color-cool-soft: var(--graphite-cool-soft);
+  --color-live: var(--graphite-live);
+  --color-focus: var(--graphite-accent);
+}
+
+/* backing plate for generated figures (matplotlib pngs) */
+:root { --color-plot-paper: oklch(99% 0.004 85); }
+.dark { --color-plot-paper: oklch(96% 0.006 250); }
+
+@theme inline {
+  --font-display: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-host), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-atkinson), ui-monospace, monospace;
+}

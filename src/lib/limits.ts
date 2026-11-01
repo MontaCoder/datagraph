@@ -9,30 +9,27 @@ const redis =
       })
     : undefined;
 
-const isLocal = false; // process.env.NODE_ENV !== "production";
-
-// 50 messages per day
-const ratelimit =
-  !isLocal && redis
-    ? new Ratelimit({
-        redis: redis,
-        limiter: Ratelimit.fixedWindow(50, "1 d"),
-        analytics: true,
-      })
-    : undefined;
+// 50 messages per day. When Redis is not configured (e.g. local dev),
+// the limits are disabled.
+const ratelimit = redis
+  ? new Ratelimit({
+      redis: redis,
+      limiter: Ratelimit.fixedWindow(50, "1 d"),
+      analytics: true,
+    })
+  : undefined;
 
 // Code execution is the most expensive path (spins up an E2B sandbox) and is
 // hit multiple times per question (including auto-retries), so it gets its own,
 // more generous bucket on a separate key namespace.
-const codeRunRatelimit =
-  !isLocal && redis
-    ? new Ratelimit({
-        redis: redis,
-        limiter: Ratelimit.fixedWindow(150, "1 d"),
-        analytics: true,
-        prefix: "ratelimit:coderuns",
-      })
-    : undefined;
+const codeRunRatelimit = redis
+  ? new Ratelimit({
+      redis: redis,
+      limiter: Ratelimit.fixedWindow(150, "1 d"),
+      analytics: true,
+      prefix: "ratelimit:coderuns",
+    })
+  : undefined;
 
 export const getRemainingMessages = async (userFingerPrint: string) => {
   if (!ratelimit) return { remaining: 50 };

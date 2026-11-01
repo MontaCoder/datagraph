@@ -3,8 +3,12 @@ import {
   streamText,
   generateId,
   type ModelMessage,
+  type AssistantContent,
+  type TextPart,
   wrapLanguageModel,
   extractReasoningMiddleware,
+  toUIMessageStream,
+  createUIMessageStreamResponse,
 } from "ai";
 import { DbMessage, loadChat, saveNewMessage } from "@/lib/chat-store";
 import { limitMessages } from "@/lib/limits";
@@ -17,6 +21,17 @@ const bodySchema = z.object({
   message: z.string().min(1).max(8000),
   model: z.string().max(128).optional(),
 });
+
+// The persisted text of an assistant reply. ModelMessage content may be a
+// plain string or a part array (e.g. reasoning extracted by the middleware
+// alongside text), so join the text parts for non-string content.
+function extractAssistantText(content: AssistantContent): string {
+  if (typeof content === "string") return content;
+  return content
+    .filter((part): part is TextPart => part.type === "text")
+    .map((part) => part.text)
+    .join("");
+}
 
 export async function POST(req: Request) {
   let body: z.infer<typeof bodySchema>;
@@ -93,7 +108,7 @@ export async function POST(req: Request) {
 
     const stream = streamText({
       model: modelInstance,
-      system: generateCodePrompt({
+      instructions: generateCodePrompt({
         csvFileUrl: chat?.csvFileUrl || "",
         csvHeaders: chat?.csvHeaders || [],
         csvRows: chat?.csvRows || [],
@@ -104,22 +119,20 @@ export async function POST(req: Request) {
       onError: (error) => {
         console.error("Error:", error);
       },
-      async onFinish({ response }) {
+      async onEnd({ responseMessages }) {
         // End timing
-        const end = Date.now();
-        const duration = (end - start) / 1000;
+        const duration = (Date.now() - start) / 1000;
 
-        if (response.messages.length > 1) {
+        if (responseMessages.length > 1) {
           return;
         }
 
-        const coreMsg = response.messages[0];
+        const coreMsg = responseMessages[0];
         if (!coreMsg || coreMsg.role !== "assistant") {
           return;
         }
 
-        const textContent =
-          typeof coreMsg.content === "string" ? coreMsg.content : "";
+        const textContent = extractAssistantText(coreMsg.content);
 
         const responseMessage: DbMessage = {
           id: generateId(),
@@ -140,7 +153,9 @@ export async function POST(req: Request) {
       },
     });
 
-    return stream.toUIMessageStreamResponse();
+    return createUIMessageStreamResponse({
+      stream: toUIMessageStream({ stream: stream.stream }),
+    });
   } catch (err) {
     console.error(err);
     return new Response("Error generating response", { status: 500 });

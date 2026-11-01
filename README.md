@@ -1,5 +1,5 @@
 <a href="https://datagraph.app/">
-<img alt="Datagraph" src="./public/og.jpg">
+<img alt="Datagraph" src="https://datagraph.app/opengraph-image">
 </a>
 
 <div align="center">

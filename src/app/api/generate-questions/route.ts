@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { generateObject, NoObjectGeneratedError } from "ai";
+import { generateText, NoObjectGeneratedError, Output } from "ai";
 import { z } from "zod";
 import { cerebrasClient } from "@/lib/clients";
 import { generateQuestionsPrompt } from "@/lib/prompts";
@@ -57,16 +57,16 @@ export async function POST(req: Request) {
       );
     }
 
-    const { object: generatedQuestions } = await generateObject({
+    const result = await generateText({
       model: cerebrasClient("zai-glm-4.7"),
-      output: "array",
-      schema: questionSchema,
+      output: Output.array({ element: questionSchema, maxItems: 3 }),
       // give the reasoning model headroom for chain-of-thought + output
       maxOutputTokens: 4096,
       maxRetries: 1,
       prompt: generateQuestionsPrompt({ csvHeaders: columns }),
     });
 
+    const generatedQuestions = await result.output;
     const trimmed = (generatedQuestions ?? []).slice(0, 3);
     if (trimmed.length === 0) {
       // model produced no questions, serve fallback so upload UX continues
