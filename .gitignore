@@ -58,7 +58,6 @@ scripts/
 .cursor/
 .claude/
 AGENTS.md
-.hallmark/
 .zcode/
 .workbuddy-ai/
 skills-lock.json

@@ -1,5 +1,5 @@
 <a href="https://datagraph.app/">
-<img alt="Datagraph" src="https://datagraph.app/opengraph-image">
+<img alt="The Datagraph landing page: the file holds the answer, with the sample CSV plotted full-bleed behind the headline" src="docs/landing.webp" width="100%">
 </a>
 
 <div align="center">
@@ -10,6 +10,8 @@
         sandboxed, and reproducible.
     </p>
 </div>
+
+<img alt="The Datagraph app: drop a CSV, ask in your own words, read the answer" src="docs/app.webp" width="100%">
 
 ## Tech Stack
 

@@ -7,7 +7,7 @@ export type PlotRow = { name: string; price: number };
 const W = 1440;
 const H = 640;
 const TOP = 0.06;
-const TICK_FRACTIONS = [0.25, 0.5, 0.75, 1];
+const TICK_FRACTIONS = [0, 0.25, 0.5, 0.75, 1];
 
 /**
  * the file, plotted: one hairline, its area, an axis in the page

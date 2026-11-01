@@ -1,6 +1,6 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { overflow-x: clip; }
-html { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-2xl); }
+html { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: calc(var(--nav-h) + var(--space-lg)); scroll-behavior: smooth; }
 body {
   margin: 0;
   background: var(--color-paper);
@@ -26,8 +26,8 @@ h1, h2, h3 {
   min-width: 0;
   text-wrap: balance;
 }
-h1 { font-size: var(--text-display); max-width: 12ch; }
-h2 { font-size: var(--text-section); max-width: 20ch; }
+h1 { font-size: var(--text-display); max-width: 12ch; line-height: 1.0; letter-spacing: -0.038em; }
+h2 { font-size: var(--text-section); max-width: 20ch; letter-spacing: -0.032em; }
 h3 { font-size: var(--text-title); line-height: 1.15; max-width: 30ch; }
 p { margin: 0; text-wrap: pretty; }
 p:not([class]) { max-width: 62ch; }

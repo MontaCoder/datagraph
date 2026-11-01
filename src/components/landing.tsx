@@ -67,7 +67,7 @@ function Nav() {
             {l.label}
           </Link>
         ))}
-        <ThemeToggle className="size-9" />
+        <ThemeToggle className="size-11" />
         <Link href="/app" className="btn">
           open the app
         </Link>
